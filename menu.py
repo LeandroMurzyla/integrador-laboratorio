@@ -16,6 +16,8 @@ class MenuBuscalibre:
             print("3. Borrar un libro")
             print("4. Cargar disponibilidad")
             print("5. Listado de Libros")
+            print("5. Listado de Libros")
+            print("5. Listado de Libros")
             print("0. Salir del menú")
             print("========================")
 
@@ -37,81 +39,96 @@ class MenuBuscalibre:
             else:
                 print("Opción inválida. Inténtalo nuevamente.")
 
-
-
     def cargar_libros(self):
-        valid_input = False
+            # Solicitar los datos del libro al usuario
+            isbn = (input("ISBN (13 dígitos): "))
+            while len(isbn) != 13 or not isbn or not isbn.isdigit():
+                if len(isbn) != 13 or not isbn.isdigit():
+                    print("Error: El ISBN debe tener 13 dígitos númericos.")
+                elif not isbn:
+                    print("Error: El ISBN no puede estar vacío.")
 
-        while not valid_input:
-            try:
-                # Solicitar los datos del libro al usuario
-                isbn = input("ISBN (13 dígitos): ")
-                if len(isbn) != 13:
-                    print("Error: El ISBN debe tener 13 dígitos.")
-                    continue
+                isbn = input("ISBN (13 dígitos): ")    
 
+
+            titulo = input("Título: ")
+            while not titulo:
+                print("Error: El título no puede estar vacío.")
                 titulo = input("Título: ")
-                if not titulo:
-                    print("Error: El título no puede estar vacío.")
-                    continue
+                
+
+            autor = input("Autor: ")
+            while not autor or any(char.isdigit() for char in autor):
+                if not autor:
+                    print("Error: El autor no puede estar vacío") 
+                elif any(char.isdigit() for char in autor):
+                    print("Error: El autor debe ser una cadena de texto sin números.")
 
                 autor = input("Autor: ")
-                if not autor.isalpha():
-                    print("Error: El autor debe ser una cadena de texto sin números.")
-                    continue
-
-                genero = input("Género: ")
-                if not genero.isalpha():
+                    
+                    
+            genero = input("Género: ")
+            while not genero or any(char.isdigit() for char in genero):
+                if not genero:
+                    print("Error: El género no puede estar vacío")
+                if any(char.isdigit() for char in genero):
                     print("Error: El género debe ser una cadena de texto sin números.")
-                    continue
 
-                while True:
-                    try:
-                        precio = float(input("Precio: "))
-                        break
-                    except ValueError:
-                        print("Error: El precio debe ser un número válido.")
-                        continue
+                autor = input("Género: ")
 
-                while True:
-                    try:
-                        fecha_str = input("Fecha último precio (YYYY-MM-DD): ")
-                        fecha_ultimo_precio = datetime.datetime.strptime(fecha_str, "%Y-%m-%d").date()
-                        break
-                    except ValueError:
-                        print("Error: Formato de fecha inválido. Debe ser YYYY-MM-DD.")
-                        continue
+            precio = (input("Precio: "))
+            while not precio or not precio.isdigit() or precio < 0:
+                if not precio:
+                    print("Error: El precio no puede estar vacío.")
+                elif not precio.isdigit() or precio < 0:
+                    print("Error: El precio debe ser un valor númerico y no puede ser un valor negativo.")
 
-                while True:
-                    try:
-                        cant_disponible = int(input("Cantidad disponible: "))
-                        break
-                    except ValueError:
-                        print("Error: La cantidad disponible debe ser un número válido.")
-                        continue
+                precio = input("Precio: ")
 
-                # Validar que el autor y el género no contengan números
-                if not autor.isalpha() or not genero.isalpha():
-                    print("Error: El autor y el género deben ser cadenas de texto sin números.")
-                    continue
+            fecha_str = input("Fecha último precio (YYYY-MM-DD): ")
+            fecha_ultimo_precio = input("Fecha último precio ()")
 
-                # Crear una tupla con los datos del libro
-                libro = (isbn, titulo, autor, genero, precio, fecha_ultimo_precio, cant_disponible)
+            cant_disponible = int(input("Cantidad disponible: "))
+            while not cant_disponible or not cant_disponible.isdigit() or any(int.isalpha() for int in cant_disponible) or cant_disponible < 0:
+                if not cant_disponible:
+                    print("Error: La cantidad disponible no puede estar vacía.")
+                elif not cant_disponible.isdigit():
+                    print("Error: La cantidad disponible debe ser un valor númerico.")
+                
+                cant_disponible = print("")
 
-                # Insertar el libro en la base de datos
-                query = "INSERT INTO Libros (ISBN, Titulo, Autor, Genero, Precio, FechaUltimoPrecio, CantDisponible) VALUES (?, ?, ?, ?, ?, ?, ?)"
-                buscalibre.ejecutar_actualizacion(query, libro)
-                print("Libro cargado exitosamente.")
-                valid_input = True
+                    
 
-            except Exception as e:
-                print("Error al cargar el libro:", str(e))
+        #     while True:
+        #         try:
+        #             fecha_str = input("Fecha último precio (YYYY-MM-DD): ")
+        #             fecha_ultimo_precio = datetime.datetime.strptime(fecha_str, "%Y-%m-%d").date()
+        #             break
+        #         except ValueError:
+        #             print("Error: Formato de fecha inválido. Debe ser YYYY-MM-DD.")
+        #             continue
+
+        #     while True:
+        #         try:
+        #             cant_disponible = int(input("Cantidad disponible: "))
+        #             break
+        #         except ValueError:
+        #             print("Error: La cantidad disponible debe ser un número válido.")
+        #             continue
+      
+
+    # Crear una tupla con los datos del libro
+    libro = (isbn, titulo, autor, genero, precio, fecha_ultimo_precio, cant_disponible)
+
+        #     # Insertar el libro en la base de datos
+        #     query = "INSERT INTO Libros (ISBN, Titulo, Autor, Genero, Precio, FechaUltimoPrecio, CantDisponible) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        #     buscalibre.ejecutar_actualizacion(query, libro)
+        #     print("Libro cargado exitosamente.")
+        #     valid_input = True
+
+        # except Exception as e:
+        #     print("Error al cargar el libro:", str(e))
     pass
-
-
-
-
-
 
 
 
@@ -146,6 +163,8 @@ class MenuBuscalibre:
     def borrar_libro(self):
         # Solicitar el ID del libro al usuario
         id_libro = int(input("ID del libro: "))
+        while not id_libro or id_libro != int:
+            id_libro = int(input("Error: ID incorrecto, ingreselo nuevamente: "))
 
         try:
             # Verificar si el libro existe en la base de datos
