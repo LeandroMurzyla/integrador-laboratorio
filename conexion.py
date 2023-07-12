@@ -36,7 +36,7 @@ class ConexionSQLite:
             print("Error al obtener el registro:", str(e))
 
 # Ejecutar consulta con o sin parámetros
-    def ejecutar_consulta(self, parametros, consulta=None):
+    def ejecutar_consulta(self, consulta, parametros=None):
         try:
             if parametros:
                 self.cursor.execute(consulta, parametros)
